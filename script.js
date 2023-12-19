@@ -1,4 +1,5 @@
 const body = document.querySelector('body');
+const image_container = document.querySelector('.image-container');
 const primary_container = document.querySelector('.primary-container');
 const btn_container = document.querySelector('.btn-container');
 const getGrid = document.querySelector('.getGrid');
@@ -10,6 +11,8 @@ const BTN_CONTAINER_SIZE = primary_container.clientWidth;
 const GRID_CONTAINER_SIZE = primary_container.clientWidth;
 let newMode = "default";
 let cells;
+
+image_container.style.backgroundSize = (GRID_CONTAINER_SIZE + 200) + "px " + (GRID_CONTAINER_SIZE + 300) + "px";
 
 btn_container.style.width = BTN_CONTAINER_SIZE + "px";
 
