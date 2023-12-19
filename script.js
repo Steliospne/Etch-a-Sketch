@@ -1,9 +1,10 @@
 const body = document.querySelector('body');
-const primary_container = document.querySelector(".primary-container");
-const btn_container = document.querySelector(".btn-container");
-const getGrid = document.querySelector(".getGrid");
+const primary_container = document.querySelector('.primary-container');
+const btn_container = document.querySelector('.btn-container');
+const getGrid = document.querySelector('.getGrid');
 const clearBtn = document.querySelector('.clearGrid');
 const resetBtn = document.querySelector('.resetGrid');
+const setMode = document.querySelector('.setMode');
 const BTN_CONTAINER_SIZE = primary_container.clientWidth;
 const GRID_CONTAINER_SIZE = primary_container.clientWidth;
 let cells;
@@ -14,7 +15,9 @@ clearBtn.addEventListener('click', clear);
 
 resetBtn.addEventListener('click', reset);
 
-getGrid.addEventListener("click", () => {
+setMode.addEventListener('click', mode);
+
+getGrid.addEventListener('click', () => {
     reset();
     cells = +prompt("Enter grid size per side.");
     createGrid(cells);
@@ -31,8 +34,8 @@ function createGrid(cells) {
         gridItem.style.boxSizing = "border-box";
         gridItem.style.width = GRID_CONTAINER_SIZE / cells + "px";
         gridItem.style.height = gridItem.style.width;
-        gridItem.addEventListener("mousedown", paint);
-        gridItem.addEventListener("mouseover", paint);
+        gridItem.addEventListener('mousedown', paint);
+        gridItem.addEventListener('mouseover', paint);
         primary_container.appendChild(gridItem);
     }
 }
@@ -48,5 +51,5 @@ function reset() {
 
 function paint(e) {
     if (e.type == "mouseover" && !mouseDown) return;
-    e.target.style.backgroundColor = "red";
+    e.target.style.backgroundColor = "black";
 }
