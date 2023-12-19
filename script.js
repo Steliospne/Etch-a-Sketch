@@ -1,88 +1,52 @@
-const cells = +prompt("Enter grid size per side.");
+const body = document.querySelector('body');
 const primary_container = document.querySelector(".primary-container");
-const containerMaxWidth = primary_container.offsetWidth;
+const btn_container = document.querySelector(".btn-container");
+const getGrid = document.querySelector(".getGrid");
+const clearBtn = document.querySelector('.clearGrid');
+const resetBtn = document.querySelector('.resetGrid');
+const BTN_CONTAINER_SIZE = primary_container.clientWidth;
+const GRID_CONTAINER_SIZE = primary_container.clientWidth;
+let cells;
 
-createGrid(cells);
+btn_container.style.width = BTN_CONTAINER_SIZE + "px";
+
+clearBtn.addEventListener('click', clear);
+
+resetBtn.addEventListener('click', reset);
+
+getGrid.addEventListener("click", () => {
+    reset();
+    cells = +prompt("Enter grid size per side.");
+    createGrid(cells);
+});
+
+let mouseDown = false;
+document.body.onmousedown = () => (mouseDown = true);
+document.body.onmouseup = () => (mouseDown = false);
 
 function createGrid(cells) {
     for (let i = 1; i < cells ** 2 + 1; i++) {
         const gridItem = document.createElement("div");
-        let gridItemTop, gridItemRight, gridItemBottom, gridItemLeft;
         gridItem.className = `grid-item${i}`;
-        gridItem.textContent = i;
         gridItem.style.boxSizing = "border-box";
-        gridItem.style.width = containerMaxWidth / cells + "px";
+        gridItem.style.width = GRID_CONTAINER_SIZE / cells + "px";
         gridItem.style.height = gridItem.style.width;
-        gridItem.style.border = "solid black";
-
-        setGridBorders(
-            i,
-            gridItemTop,
-            gridItemRight,
-            gridItemBottom,
-            gridItemLeft,
-            cells,
-            gridItem
-        );
+        gridItem.addEventListener("mousedown", paint);
+        gridItem.addEventListener("mouseover", paint);
         primary_container.appendChild(gridItem);
     }
 }
 
-function setGridBorders(
-    i,
-    gridItemTop,
-    gridItemRight,
-    gridItemBottom,
-    gridItemLeft,
-    cells,
-    gridItem
-) {
-    if (i == 1) {
-        gridItemTop = 4;
-        gridItemRight = 2;
-        gridItemBottom = 2;
-        gridItemLeft = 4;
-    } else if (i == cells) {
-        gridItemTop = 4;
-        gridItemRight = 4;
-        gridItemBottom = 2;
-        gridItemLeft = 2;
-    } else if (i == 3 * cells + 1) {
-        gridItemTop = 2;
-        gridItemRight = 2;
-        gridItemBottom = 4;
-        gridItemLeft = 4;
-    } else if (i == cells ** 2) {
-        gridItemTop = 2;
-        gridItemRight = 4;
-        gridItemBottom = 4;
-        gridItemLeft = 2;
-    } else if (i > 0 && i < cells) {
-        gridItemTop = 4;
-        gridItemRight = 2;
-        gridItemBottom = 2;
-        gridItemLeft = 2;
-    } else if (i % cells == 0 && i != 0 && i != cells ** 2) {
-        gridItemTop = 2;
-        gridItemRight = 4;
-        gridItemBottom = 2;
-        gridItemLeft = 2;
-    } else if (i % cells == 1 && i != 1 && i != 3* cells + 1) {
-        gridItemTop = 2;
-        gridItemRight = 2;
-        gridItemBottom = 2;
-        gridItemLeft = 4;
-    } else if (i > 3 * cells + 1 && i< cells **2) {
-        gridItemTop = 2;
-        gridItemRight = 2;
-        gridItemBottom = 4;
-        gridItemLeft = 2;
-    }
-    else {
-        gridItemTop = 2;
-        gridItemRight = 2;
-        gridItemBottom = 2;
-        gridItemLeft = 2;
-    }
-    console.log(gridItem.style.borderWidth = new String(`${gridItemTop}px ${gridItemRight}px ${gridItemBottom}px ${gridItemLeft}px`));
+function clear() {
+    reset()
+    createGrid(cells)
+}
+
+function reset() {
+    primary_container.innerHTML = "";
+}
+
+function paint(e) {
+    if (e.type == "mouseover" && !mouseDown) return;
+    e.target.style.backgroundColor = "red";
 }
